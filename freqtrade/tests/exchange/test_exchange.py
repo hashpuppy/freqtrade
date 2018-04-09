@@ -1,23 +1,24 @@
 # pragma pylint: disable=missing-docstring, C0103, bad-continuation, global-statement
 # pragma pylint: disable=protected-access
-from unittest.mock import MagicMock
-from random import randint
 import logging
-from requests.exceptions import RequestException
-import pytest
+from random import randint
+from unittest.mock import MagicMock
 
+import pytest
+from requests.exceptions import RequestException
+
+import freqtrade.exchange as exchange
 from freqtrade import OperationalException
 from freqtrade.exchange import init, validate_pairs, buy, sell, get_balance, get_balances, \
     get_ticker, get_ticker_history, cancel_order, get_name, get_fee
-import freqtrade.exchange as exchange
 from freqtrade.tests.conftest import log_has
 
 API_INIT = False
 
 
-def maybe_init_api(conf, mocker):
+def maybe_init_api(conf, mocker, force=False):
     global API_INIT
-    if not API_INIT:
+    if force or not API_INIT:
         mocker.patch('freqtrade.exchange.validate_pairs',
                      side_effect=lambda s: True)
         init(config=conf)
@@ -26,7 +27,7 @@ def maybe_init_api(conf, mocker):
 
 def test_init(default_conf, mocker, caplog):
     caplog.set_level(logging.INFO)
-    maybe_init_api(default_conf, mocker)
+    maybe_init_api(default_conf, mocker, True)
     assert log_has('Instance is running with dry_run enabled', caplog.record_tuples)
 
 

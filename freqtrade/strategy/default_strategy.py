@@ -2,11 +2,10 @@
 
 import talib.abstract as ta
 from pandas import DataFrame
-import freqtrade.vendor.qtpylib.indicators as qtpylib
-from freqtrade.strategy.interface import IStrategy
-from freqtrade.indicator_helpers import fishers_inverse
 
-class_name = 'DefaultStrategy'
+import freqtrade.vendor.qtpylib.indicators as qtpylib
+from freqtrade.indicator_helpers import fishers_inverse
+from freqtrade.strategy.interface import IStrategy
 
 
 class DefaultStrategy(IStrategy):

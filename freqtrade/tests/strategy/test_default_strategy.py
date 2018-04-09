@@ -1,18 +1,16 @@
 import json
+
 import pytest
 from pandas import DataFrame
-from freqtrade.strategy.default_strategy import DefaultStrategy, class_name
-from freqtrade.analyze import parse_ticker_dataframe
+
+from freqtrade.analyze import Analyze
+from freqtrade.strategy.default_strategy import DefaultStrategy
 
 
 @pytest.fixture
 def result():
     with open('freqtrade/tests/testdata/BTC_ETH-1.json') as data_file:
-        return parse_ticker_dataframe(json.load(data_file))
-
-
-def test_default_strategy_class_name():
-    assert class_name == DefaultStrategy.__name__
+        return Analyze.parse_ticker_dataframe(json.load(data_file))
 
 
 def test_default_strategy_structure():
